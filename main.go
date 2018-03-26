@@ -237,9 +237,11 @@ Severity override map (default is "warning"):
 	} else if config.Checkstyle {
 		status |= outputToCheckstyle(issues)
 	} else if config.CheckstyleAndConsole{
-		status |= outputToCheckstyleAndConsole(issues)
+		status |= outputToConsole(issues)
+		status |= outputToCheckstyle(issues)
 	}else {
 		status |= outputToConsole(issues)
+		status |= outputToCheckstyle(issues)
 	}
 	for err := range errch {
 		warning("%s", err)
