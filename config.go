@@ -51,6 +51,7 @@ type Config struct { // nolint: maligned
 	Errors          bool
 	JSON            bool
 	Checkstyle      bool
+	CheckstyleAndConsole      bool
 	EnableGC        bool
 	Aggregate       bool
 	EnableAll       bool
