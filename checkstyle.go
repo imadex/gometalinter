@@ -63,3 +63,43 @@ func outputToCheckstyle(issues chan *Issue) int {
 	fmt.Printf("%s%s\n", xml.Header, d)
 	return status
 }
+
+func outputToCheckstyleAndConsole(issues chan *Issue) int {
+	var lastFile *checkstyleFile
+	out := checkstyleOutput{
+		Version: "5.0",
+	}
+	status := 0
+	for issue := range issues {
+		path := issue.Path.Relative()
+		if lastFile != nil && lastFile.Name != path {
+			out.Files = append(out.Files, lastFile)
+			lastFile = nil
+		}
+		if lastFile == nil {
+			lastFile = &checkstyleFile{Name: path}
+		}
+
+		if config.Errors && issue.Severity != Error {
+			continue
+		}
+
+		fmt.Println(issue.String())
+
+		lastFile.Errors = append(lastFile.Errors, &checkstyleError{
+			Column:   issue.Col,
+			Line:     issue.Line,
+			Message:  issue.Message,
+			Severity: string(issue.Severity),
+			Source:   issue.Linter,
+		})
+		status = 1
+	}
+	if lastFile != nil {
+		out.Files = append(out.Files, lastFile)
+	}
+	d, err := xml.Marshal(&out)
+	kingpin.FatalIfError(err, "")
+	fmt.Printf("%s%s\n", xml.Header, d)
+	return status
+}
