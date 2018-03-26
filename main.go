@@ -22,6 +22,7 @@ var (
 	vendoredSearchPaths = [][]string{
 		{"github.com", "alecthomas", "gometalinter", "_linters"},
 		{"gopkg.in", "alecthomas", "gometalinter.v2", "_linters"},
+		{"github.com", "imadex", "gometalinter", "_linters"},
 	}
 	defaultConfigPath = ".gometalinter.json"
 
