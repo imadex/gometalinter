@@ -238,7 +238,7 @@ Severity override map (default is "warning"):
 		status |= outputToCheckstyle(issues)
 	} else if config.CheckstyleAndConsole{
 		status |= outputToConsole(issues)
-		status |= outputToCheckstyle(issues)
+		
 	}else {
 		status |= outputToConsole(issues)
 	}
